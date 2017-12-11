@@ -44,6 +44,21 @@ library("TCGAbiolinksGUI.data")
 
 # Contents
 
+## Creating list of GDC projects
+
+```{r, eval=FALSE, include=TRUE}
+# Defining parameters
+getGDCdisease <- reactive({
+    projects <- TCGAbiolinks:::getGDCprojects()
+    projects <- projects[projects$id != "FM-AD",]
+    disease <-  projects$project_id
+    idx <- grep("disease_type",colnames(projects))
+    names(disease) <-  paste0(projects[[idx]], " (",disease,")")
+    disease <- disease[sort(names(disease))]
+    return(disease)
+})
+```
+
 ## Creating Training models
 
 Based on the article data from the article "Molecular Profiling Reveals Biologically Discrete Subsets and Pathways of Progression in Diffuse Glioma" (www.cell.com/cell/abstract/S0092-8674(15)01692-X) [@Cell]

@@ -3,7 +3,10 @@
 #' TCGAbiolinksGUI.data provide the necessary data for TCGAbiolinksGUI glioma classifier menu.
 #' @docType package
 #' @seealso \code{\link[TCGAbiolinksGUI.data]{glioma.idh.model}}, \code{\link[TCGAbiolinksGUI.data]{glioma.idhwt.model}}, 
-#' \code{\link[TCGAbiolinksGUI.data]{glioma.idhmut.model}}, \code{\link[TCGAbiolinksGUI.data]{glioma.gcimp.model}}
+#' \code{\link[TCGAbiolinksGUI.data]{glioma.idhmut.model}}, \code{\link[TCGAbiolinksGUI.data]{glioma.gcimp.model}},
+#' \code{\link[TCGAbiolinksGUI.data]{probes2rm}}, 
+#' \code{\link[TCGAbiolinksGUI.data]{maf.tumor}}, 
+#' \code{\link[TCGAbiolinksGUI.data]{GDCdisease}}
 #' @name TCGAbiolinksGUI.data
 #' @exportPattern ^[[:alpha:]]+
 #' @keywords utilities
@@ -56,3 +59,39 @@ NULL
 #' data("glioma.idh.model")
 #' }
 "glioma.idh.model"
+
+
+#' GDC projects list
+#' @docType data
+#' @keywords internal
+#' @name GDCdisease
+#' @format A list with 39 elements
+#' @examples
+#' \dontrun{
+#' data("GDCdisease")
+#' }
+"GDCdisease"
+
+#' TCGA projects with MAF files
+#' @docType data
+#' @keywords internal
+#' @name maf.tumor
+#' @format A list with 33 elements
+#' @examples
+#' \dontrun{
+#' data("maf.tumor")
+#' }
+"maf.tumor"
+
+
+#' List of probs that should be removed 
+#' from EPIC array due to different versions of the platform
+#' @docType data
+#' @keywords internal
+#' @name probes2rm
+#' @format A list with 977 elements
+#' @examples
+#' \dontrun{
+#' data("probes2rm")
+#' }
+"probes2rm"
