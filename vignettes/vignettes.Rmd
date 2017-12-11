@@ -23,12 +23,6 @@ editor_options:
 bibliography: bibliography.bib    
 ---   
 
-```{r, echo = FALSE,hide=TRUE, message=FALSE,warning=FALSE}
-library(ELMER.data)
-library(DT)
-library(dplyr)
-```
-
 # Introduction
 
 This document provides an introduction of the `r BiocStyle::Biocpkg("TCGAbiolinksGUI.data")`, which contains 
