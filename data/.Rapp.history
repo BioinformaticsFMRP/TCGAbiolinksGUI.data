@@ -1,0 +1,45 @@
+load("/Volumes/Macintosh HD 2/Dropbox/Lab/code/ELMER.data/data/human.TF.rda")
+getwd()
+ls()
+human.TF <- TFs
+save(human.TF, file="human.TF.rda")
+rm(list=ls())
+load("/Volumes/Macintosh HD 2/Dropbox/Lab/code/ELMER.data/data/human.TF.rda")
+ls()
+load("/Volumes/Macintosh HD 2/Dropbox/Lab/code/ELMER.data/data/Union.enhancer.rda")
+enhancer
+Union.enhancer <- enhancer
+Union.enhancer
+save(Union.enhancer, file="Union.enhancer.rda")
+rm(list=ls())
+load("/Volumes/Macintosh HD 2/Dropbox/Lab/code/ELMER.data/data/Union.enhancer.rda")
+ls()
+Union.enhancer
+load("/Volumes/Macintosh HD 2/Dropbox/Lab/code/ELMER.data/data/GENCODE.UCSC.combined.TSS.rda")
+ls()
+Combined.TSS <- TSS
+save(Combined.TSS, file="Combined.TSS.rda")
+rm(list=ls())
+load("/Volumes/Macintosh HD 2/Dropbox/Lab/code/ELMER.data/data/Combined.TSS.rda")
+ls()
+Combined.TSS
+load("/Volumes/Macintosh HD 2/Dropbox/Lab/code/ELMER.data/data/motif.relavent.TFs.human.rda")
+ls()
+load("/Volumes/Macintosh HD 2/Dropbox/Lab/code/ELMER.data/data/Probes.motif.rda")
+ls()
+Probes.motif <- Probes.TF
+save(Probes.motif, file="Probes.motif.rda")
+rm(list=ls())
+load("/Volumes/Macintosh HD 2/Dropbox/Lab/code/ELMER.data/data/Probes.motif.rda")
+ls()
+dim(Probes.motif)
+load("/Volumes/Macintosh HD 2/TCGAcolonRNAseq/FunciSNP.data/build/vignette.rds")
+load("/Volumes/Macintosh HD 2/Dropbox/Lab/code/ELMER.data/data/Combined.TSS.rda")
+ls()
+save(Combined.TSS, file="Combined.TSS.rda", compress="xz")
+load("/Volumes/Macintosh HD 2/Dropbox/Lab/code/ELMER.data/data/Probes.motif.rda")
+save(Probes.motif, file="Probes.motif.rda", compress="xz")
+load("/Volumes/Macintosh HD 2/Dropbox/Lab/code/ELMER.data/data/human.TF.rda")
+save(human.TF, file="human.TF.rda", compress="xz")
+load("/Volumes/Macintosh HD 2/Dropbox/Lab/code/ELMER.data/data/Union.enhancer.rda")
+save(Union.enhancer, file="Union.enhancer.rda", compress="xz")
