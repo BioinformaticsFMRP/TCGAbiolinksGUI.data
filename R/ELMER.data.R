@@ -1,15 +1,14 @@
-#' @title Data for TCGAbiolinksGUI package
+#' @title Data for TCGAbiolinksGUI package.
 #' @description
-#' TCGAbiolinksGUI.data provide the necessary data for 
-#' TCGAbiolinksGUI glioma classifier menu.
+#' TCGAbiolinksGUI.data provide the necessary data for TCGAbiolinksGUI glioma classifier menu.
 #' @docType package
 #' @seealso \code{\link[TCGAbiolinksGUI.data]{glioma.idh.model}}, \code{\link[TCGAbiolinksGUI.data]{glioma.idhwt.model}}, 
-#' \code{\link[TCGAbiolinksGUI.data]{glioma.mut.model}}, \code{\link[TCGAbiolinksGUI.data]{glioma.gcimp.model}}
+#' \code{\link[TCGAbiolinksGUI.data]{glioma.idhmut.model}}, \code{\link[TCGAbiolinksGUI.data]{glioma.gcimp.model}}
 #' @name TCGAbiolinksGUI.data
 #' @exportPattern ^[[:alpha:]]+
 #' @keywords utilities
 #' @examples
-#' # Please see the datasets
+#' # Please see the datasets.
 NULL
 
 #' A train model for gcimp DNA methylation signatures

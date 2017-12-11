@@ -6,21 +6,10 @@ Maintainer: Tiago Chedraoui Silva <tiagochst@usp.br>
 Description: 
     Supporting data for the TCGAbiolinksGUI package. 
     It includes:
-     - elmer.data.example.promoter: mae.promoter
-     - elmer.data.example: data
-     - EPIC.manifest.hg38
-     - EPIC.manifest
-     - hm450.manifest.hg38
-     - hm450.manifest
-     - hocomoco.table
-     - LUSC_meth_refined: Meth
-     - LUSC_RNA_refined: GeneExp
-     - Probes.motif.hg19.450K
-     - Probes.motif.hg19.EPIC
-     - Probes.motif.hg38.450K
-     - Probes.motif.hg38.EPIC
-     - TF.family
-     - TF.subfamily
+    - glioma.gcimp.model
+    - glioma.idhwt.model
+    - glioma.idhmut.model
+    - glioma.idh.model
 License: GPL-3
 LazyData: false
 Depends:
@@ -30,7 +19,6 @@ Imports:
 Suggests:
     BiocStyle,
     knitr,
-    dplyr,
     devtools,
     DT
 biocViews: AssayDomainData, TechnologyData, OrganismData
