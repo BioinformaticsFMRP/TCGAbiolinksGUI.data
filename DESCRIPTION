@@ -10,7 +10,7 @@ Description:
 License: GPL-3
 LazyData: false
 Depends:
-    R (>= 3.5.0)
+    R (>= 3.4.0)
 Suggests:
     BiocStyle,
     knitr
