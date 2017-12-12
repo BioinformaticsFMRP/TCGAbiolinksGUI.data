@@ -10,9 +10,7 @@ Description:
 License: GPL-3
 LazyData: false
 Depends:
-    R (>= 3.2.0)
-Imports:
-    GenomicRanges
+    R (>= 3.5.0)
 Suggests:
     BiocStyle,
     knitr
