@@ -82,7 +82,7 @@ head(GDCdisease)
 
 ## List of MAF files
 
-The code below downloads a manifest of MAF files available in the NCI's Genomic Data Commons (GDC).
+The code below downloads a manifest of open TCGA MAF files available in the NCI's Genomic Data Commons (GDC).
 ```{r, eval=FALSE, include=TRUE}
 getMafTumors <- function(){
     root <- "https://gdc-api.nci.nih.gov/data/"

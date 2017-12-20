@@ -12,7 +12,7 @@
 \alias{maf.tumor}
 \alias{probes2rm}
 \title{Auxiliary data for TCGAbiolinksGUI package.}
-\format{A train object}
+\format{A RF train model or a list.}
 \usage{
 glioma.gcimp.model
 
@@ -29,26 +29,20 @@ maf.tumor
 probes2rm
 }
 \description{
-TCGAbiolinksGUI.data provide the necessary data for TCGAbiolinksGUI glioma classifier menu.
-
-A train model for gcimp DNA methylation signatures
-
-A train model for IDHmut DNA methylation signatures
-
-A train model for IDHwt DNA methylation signatures
-
-A train model for IDH DNA methylation signatures
-
-GDC projects list
-
-TCGA projects with MAF files
-
-List of probs that should be removed 
-from EPIC array due to different versions of the platform
-Source: https://support.illumina.com/downloads/infinium-methylationepic-v1-0-product-files.html
+\strong{Package:} TCGAbiolinksGUI.data provide the necessary data for TCGAbiolinksGUI glioma classifier menu.
+ It includes the fololowing objects: 
+ 
+\describe{
+ \item{\strong{glioma.gcimp.model}}{A train model for GCIMP DNA methylation signatures}
+ \item{\strong{glioma.idhwt.model}}{A train model for IDHwt DNA methylation signatures}
+ \item{\strong{glioma.idhmut.model}}{A train model for IDHmut DNA methylation signatures}
+ \item{\strong{glioma.idh.mode}}{A train model for IDH DNA methylation signatures}
+ \item{\strong{probes2rm}}{List of probes that should be removed from EPIC array due to different versions of the platform.\cr Source: https://support.illumina.com/downloads/infinium-methylationepic-v1-0-product-files.html }
+ \item{\strong{maf.tumor}}{TCGA projects with open MAF files retrieved from  the NCI's Genomic Data Commons (GDC). \cr Source: https://gdc-docs.nci.nih.gov/Data/Release_Notes/Manifests/GDC_open_MAFs_manifest.txt}
+ \item{\strong{GDCdisease}}{The NCI's Genomic Data Commons (GDC) projects list}
+}
 }
 \examples{
-# Please see the datasets.
 data("glioma.gcimp.model")
 data("glioma.idhmut.model")
 data("glioma.idhwt.model")
@@ -56,13 +50,6 @@ data("glioma.idh.model")
 data("GDCdisease")
 data("maf.tumor")
 data("probes2rm")
-}
-\seealso{
-\code{\link[TCGAbiolinksGUI.data]{glioma.idh.model}}, \code{\link[TCGAbiolinksGUI.data]{glioma.idhwt.model}}, 
-\code{\link[TCGAbiolinksGUI.data]{glioma.idhmut.model}}, \code{\link[TCGAbiolinksGUI.data]{glioma.gcimp.model}},
-\code{\link[TCGAbiolinksGUI.data]{probes2rm}}, 
-\code{\link[TCGAbiolinksGUI.data]{maf.tumor}}, 
-\code{\link[TCGAbiolinksGUI.data]{GDCdisease}}
 }
 \keyword{internal}
 \keyword{utilities}
