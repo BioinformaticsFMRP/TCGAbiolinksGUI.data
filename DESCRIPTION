@@ -1,6 +1,6 @@
 Package: TCGAbiolinksGUI.data
 Title: Data for the TCGAbiolinksGUI package
-Version: 0.99.1
+Version: 0.99.2
 Author: Tiago Chedraoui Silva
 Maintainer: Tiago Chedraoui Silva <tiagochst@usp.br>
 Description: 
@@ -10,10 +10,12 @@ Description:
 License: GPL-3
 LazyData: false
 Depends:
-    R (>= 3.4.0)
+    R (>= 3.5.0)
 Suggests:
     BiocStyle,
     knitr
 biocViews: AssayDomainData, TechnologyData, OrganismData
+URL:https://github.com/BioinformaticsFMRP/TCGAbiolinksGUI.data
+BugReports: https://github.com/BioinformaticsFMRP/TCGAbiolinksGUI.data/issues
 VignetteBuilder: knitr
 RoxygenNote: 6.0.1

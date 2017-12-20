@@ -1,6 +1,6 @@
 ---
-title: "TCGAbiolinksGUI: Supporting data for the TCGAbiolinksGUI package"
-author: "Tiago Chedraoui Silva, Simon Coetzee, Lijing Yao, Peggy Farnham, Hui Shen, Peter Laird, Houtan Noushmehr, Ben Berman"
+title: "Supporting data for the TCGAbiolinksGUI package"
+author: "Tiago Chedraoui Silva, Tathiane Malta, Houtan Noushmehr"
 date: "`r Sys.Date()`"
 output: 
     BiocStyle::html_document:
@@ -16,7 +16,7 @@ output:
 references:
 vignette: >
   \usepackage[utf8]{inputenc}
-  %\VignetteIndexEntry{TCGAbiolinksGUI: Supporting data for the TCGAbiolinksGUI package}
+  %\VignetteIndexEntry{Supporting data for the TCGAbiolinksGUI package}
   %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
   chunk_output_type: inline
@@ -26,29 +26,44 @@ bibliography: bibliography.bib
 # Introduction
 
 This document provides an introduction of the `r BiocStyle::Biocpkg("TCGAbiolinksGUI.data")`, which contains 
-supporting data for `r BiocStyle::Biocpkg("TCGAbiolinksGUI")` [@silva2017tcgabiolinksgui]. `r BiocStyle::Biocpkg("TCGAbiolinksGUI")`.
+supporting data for `r BiocStyle::Biocpkg("TCGAbiolinksGUI")` [@silva2017tcgabiolinksgui]. 
+
 This package contains the following objects:
+
   - glioma.gcimp.model  
   - glioma.idh.model
   - glioma.idhmut.model
   - glioma.idhwt.model 
 
-## Installing and loading ELMER.data
+## Installing and TCGAbiolinksGUI.data
 
-To install this package, start R and enter
+You can install the package from Bioconductor:
+```{r, eval = FALSE}
+source("https://www.bioconductor.org/biocLite.R")
+bioLite("TCGAbiolinksGUI.data")
+```
 
+Or from github:
 ```{r, eval = FALSE}
 devtools::install_github(repo = "BioinformaticsFMRP/TCGAbiolinksGUI.data")
-library("TCGAbiolinksGUI.data")
 ```
+
+Load the package:
+
+```{r, eval = TRUE}
+library(TCGAbiolinksGUI.data)
+```
+
 
 # Contents
 
 ## Creating list of GDC projects
 
+The code below access the NCI's Genomic Data Commons (GDC) and get the list of available datasets for TCGA and TARGET projects.
+
 ```{r, eval=FALSE, include=TRUE}
 # Defining parameters
-getGDCdisease <- reactive({
+getGDCdisease <- function(){
     projects <- TCGAbiolinks:::getGDCprojects()
     projects <- projects[projects$id != "FM-AD",]
     disease <-  projects$project_id
@@ -56,23 +71,53 @@ getGDCdisease <- reactive({
     names(disease) <-  paste0(projects[[idx]], " (",disease,")")
     disease <- disease[sort(names(disease))]
     return(disease)
-})
+}
 ```
+
+This data is in saved in the GDCdisease object.
+```{r}
+data(GDCdisease)
+head(GDCdisease)
+```
+
+## List of MAF files
+
+The code below downloads a manifest of MAF files available in the NCI's Genomic Data Commons (GDC).
+```{r, eval=FALSE, include=TRUE}
+getMafTumors <- function(){
+    root <- "https://gdc-api.nci.nih.gov/data/"
+    maf <- fread("https://gdc-docs.nci.nih.gov/Data/Release_Notes/Manifests/GDC_open_MAFs_manifest.txt",
+                 data.table = FALSE, verbose = FALSE, showProgress = FALSE)
+    tumor <- unlist(lapply(maf$filename, function(x){unlist(str_split(x,"\\."))[2]}))
+    proj <- TCGAbiolinks:::getGDCprojects()
+
+    disease <-  gsub("TCGA-","",proj$project_id)
+    idx <- grep("disease_type",colnames(proj))
+    names(disease) <-  paste0(proj[[idx]], " (",proj$project_id,")")
+    disease <- sort(disease)
+    ret <- disease[disease %in% tumor]
+    return(ret)
+}
+```
+
+This data is in saved in the maf.tumor object.
+```{r}
+data(maf.tumor)
+head(maf.tumor)
+```
+
 
 ## Creating Training models
 
 Based on the article data from the article "Molecular Profiling Reveals Biologically Discrete Subsets and Pathways of Progression in Diffuse Glioma" (www.cell.com/cell/abstract/S0092-8674(15)01692-X) [@Cell]
 we created a traning model to predict Glioma classes based on DNA methylation signatures.
 
+For the code to be executed we load the required libraries:
 ```{r, eval=FALSE, include=TRUE}
 #-----------------------------------------------------------------------------
 # Classify Metabolism Samples into TCGA molecular subtypes
 # Original code created by: Tathi Malta
 # Adapted by: Tiago Silva
-#-----------------------------------------------------------------------------
-
-#-----------------------------------------------------------------------------
-# Load libraries
 #-----------------------------------------------------------------------------
 library(readr)
 library(readxl)
@@ -81,7 +126,12 @@ library(caret)
 library(randomForest)
 library(doMC)
 library(e1071)
+```
 
+The next steps will download from the article: the DNA methylation data for glioma samples, samples metadata, and 
+DNA methylation signatures. Probes metadata information are downloaded from http://zwdzwd.io/InfiniumAnnotation
+
+```{r, eval=FALSE, include=TRUE}
 #-----------------------------------------------------------------------------
 # Load data used for models
 #-----------------------------------------------------------------------------
@@ -118,37 +168,42 @@ load(basename(file))
 # 4) Probes singature for IDH mutation
 file <- "https://tcga-data.nci.nih.gov/docs/publications/lgggbm_2015/PanGlioma_MethylationSignatures.xlsx"
 if(!file.exists(basename(file))) downloader::download(file,basename(file))
+```
 
-#-------------------------------------------------------------
-# Create one model for each signature
-#-------------------------------------------------------------
-# 1) RF to classify btw IDHmut and IDHwt:
-#   - trainingset: whole TCGA panglioma cohort
-#   - probes signature: "1,300 pan-glioma tumor specific"
-#   - grups: LGm1, LGm2, LGm3, LGm4, LGm5, LGm6
-#   - metadata column: Pan-Glioma DNA Methylation Cluster
-#-------------------------------------------------------------
-# 2) RF to classify IDHmut specific clusters (Fig S3A):
-#   - trainingset: TCGA IDHmut only
-#   - probes signature: "1,308 IDHmutant tumor specific "
-#   - grups: IDHmut-K1, IDHmut-K2, IDHmut-K3
-#   - metadata column: IDH-specific DNA Methylation Cluster
-#-------------------------------------------------------------
-# 3) RF to classify btw G-CIMP-low and G-CIMP-high (Fig S3C):
-#   - trainingset: TCGA IDHmut-K1 and IDHmut-K2 only
-#   - probes signature: "163  probes that define each TC"
-#   - grups: G-CIMP-low, G-CIMP-high
-#   - metadata column: Supervised DNA Methylation Cluster
-#-------------------------------------------------------------
-# 4) RF to classify IDHwt specific clusters (Fig S4A/B):
-#   - trainingset: TCGA IDHwt only
-#   - probes signature: "914 IDHwildtype tumor specific "
-#   - grups: IDHwt-K1, IDHwt-K2, IDHwt-K3
-#   - metadata column:  IDH-specific DNA Methylation Cluster
-# Note: In this case, samples classified into IDHwt-K3 
-#       should be further subdivided by grade.
-#-------------------------------------------------------------
 
+With the data and metadata available we will create one model  for each signature. 
+The code below simply select the DNA methylation values for a given set ofsignatures
+and using the labels for each samples a Random forest model is created.
+The models created are:
+
+1) RF to classify between IDHmut and IDHwt:
+   - trainingset: whole TCGA panglioma cohort
+   - probes signature: "1,300 pan-glioma tumor specific"
+   - groups: LGm1, LGm2, LGm3, LGm4, LGm5, LGm6
+   - metadata column: Pan-Glioma DNA Methylation Cluster
+
+2) RF to classify IDHmut specific clusters (Fig S3A):
+   - trainingset: TCGA IDHmut only
+   - probes signature: "1,308 IDHmutant tumor specific "
+   - groups: IDHmut-K1, IDHmut-K2, IDHmut-K3
+   - metadata column: IDH-specific DNA Methylation Cluster
+
+3) RF to classify between G-CIMP-low and G-CIMP-high (Fig S3C):
+   - trainingset: TCGA IDHmut-K1 and IDHmut-K2 only
+   - probes signature: "163  probes that define each TC"
+   - groups: G-CIMP-low, G-CIMP-high
+   - metadata column: Supervised DNA Methylation Cluster
+
+4) RF to classify IDHwt specific clusters (Fig S4A/B):
+   - trainingset: TCGA IDHwt only
+   - probes signature: "914 IDHwildtype tumor specific "
+   - groups: IDHwt-K1, IDHwt-K2, IDHwt-K3
+   - metadata column:  IDH-specific DNA Methylation Cluster
+   
+ Note: In this case, samples classified into IDHwt-K3 
+       should be further subdivided by grade.
+
+```{r, eval=FALSE, include=TRUE}
 sheets <- c("1,300 pan-glioma tumor specific",
             "1,308 IDHmutant tumor specific ",
             "163  probes that define each TC",
@@ -257,6 +312,41 @@ for(plat in c("EPIC","450K")){
          file = paste0(plat,"_RF_model_100_",gsub(" ","_",sheets[model]),".Rda"), compress = "xz")
   }
 }
+```
+
+The IDH model are saved in  glioma.idh.model object.
+```{r}
+data(glioma.idh.model)
+glioma.idh.model
+```
+
+The G-CIMP model are saved in  glioma.gcimp.model object.
+```{r}
+data("glioma.gcimp.model")
+glioma.gcimp.model
+```
+
+The IDHmut model  are saved in  glioma.idhmut.model object.
+```{r}
+data(glioma.idhmut.model)
+glioma.idhmut.model
+```
+
+The IDHwt specific model which classifies are saved in  glioma.idh.model object.
+```{r}
+data("glioma.idhwt.model")
+glioma.idhwt.model
+```
+
+
+## EPIC probes to remove
+
+The list of probes to be removed from EPIC array due to differences in library versions were taken from
+https://support.illumina.com/downloads/infinium-methylationepic-v1-0-product-files.html (Infinium MethylationEPIC v1.0 Missing Legacy CpG (B3 vs. B2) Annotation File)
+
+```{r}
+data("probes2rm")
+head(probes2rm)
 ```
 # Session Information
 ******
