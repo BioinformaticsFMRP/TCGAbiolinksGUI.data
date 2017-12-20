@@ -16,6 +16,7 @@
 #' @name TCGAbiolinksGUI.data
 #' @rdname TCGAbiolinksGUI-data 
 #' @format A RF train model or a list.
+#' @return A RF train model or a list.
 #' @exportPattern ^[[:alpha:]]+
 #' @keywords utilities
 NULL

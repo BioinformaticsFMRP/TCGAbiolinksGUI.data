@@ -28,6 +28,9 @@ maf.tumor
 
 probes2rm
 }
+\value{
+A RF train model or a list.
+}
 \description{
 \strong{Package:} TCGAbiolinksGUI.data provide the necessary data for TCGAbiolinksGUI glioma classifier menu.
  It includes the fololowing objects: 
