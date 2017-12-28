@@ -185,25 +185,48 @@ The code below simply select the DNA methylation values for a given set ofsignat
 and using the labels for each samples a Random forest model is created.
 The models created are:
 
-1) RF to classify between IDHmut and IDHwt:
+## RF to classify between IDHmut and IDHwt
    - trainingset: whole TCGA panglioma cohort
    - probes signature: "1,300 pan-glioma tumor specific"
    - groups: LGm1, LGm2, LGm3, LGm4, LGm5, LGm6
    - metadata column: Pan-Glioma DNA Methylation Cluster
 
-2) RF to classify IDHmut specific clusters (Fig S3A):
+The IDH model are saved in  glioma.idh.model object.
+```{r}
+data(glioma.idh.model)
+glioma.idh.model
+```
+
+
+
+### RF to classify IDHmut specific clusters
    - trainingset: TCGA IDHmut only
    - probes signature: "1,308 IDHmutant tumor specific "
    - groups: IDHmut-K1, IDHmut-K2, IDHmut-K3
    - metadata column: IDH-specific DNA Methylation Cluster
 
-3) RF to classify between G-CIMP-low and G-CIMP-high (Fig S3C):
+
+The IDHmut model  are saved in  glioma.idhmut.model object.
+```{r}
+data(glioma.idhmut.model)
+glioma.idhmut.model
+```
+
+
+
+### RF to classify between G-CIMP-low and G-CIMP-high 
    - trainingset: TCGA IDHmut-K1 and IDHmut-K2 only
    - probes signature: "163  probes that define each TC"
    - groups: G-CIMP-low, G-CIMP-high
    - metadata column: Supervised DNA Methylation Cluster
 
-4) RF to classify IDHwt specific clusters (Fig S4A/B):
+The G-CIMP model are saved in  glioma.gcimp.model object.
+```{r}
+data("glioma.gcimp.model")
+glioma.gcimp.model
+```
+
+### RF to classify IDHwt specific clusters 
    - trainingset: TCGA IDHwt only
    - probes signature: "914 IDHwildtype tumor specific "
    - groups: IDHwt-K1, IDHwt-K2, IDHwt-K3
@@ -212,6 +235,15 @@ The models created are:
  Note: In this case, samples classified into IDHwt-K3 
        should be further subdivided by grade.
 
+
+The IDHwt specific model which classifies are saved in  glioma.idh.model object.
+```{r}
+data("glioma.idhwt.model")
+glioma.idhwt.model
+```
+
+
+### Code to create all models
 ```{r, eval=FALSE, include=TRUE}
 sheets <- c("1,300 pan-glioma tumor specific",
             "1,308 IDHmutant tumor specific ",
@@ -317,30 +349,6 @@ for(plat in c("EPIC","450K")){
          file = paste0(plat,"_RF_model_100_",gsub(" ","_",sheets[model]),".Rda"), compress = "xz")
   }
 }
-```
-
-The IDH model are saved in  glioma.idh.model object.
-```{r}
-data(glioma.idh.model)
-glioma.idh.model
-```
-
-The G-CIMP model are saved in  glioma.gcimp.model object.
-```{r}
-data("glioma.gcimp.model")
-glioma.gcimp.model
-```
-
-The IDHmut model  are saved in  glioma.idhmut.model object.
-```{r}
-data(glioma.idhmut.model)
-glioma.idhmut.model
-```
-
-The IDHwt specific model which classifies are saved in  glioma.idh.model object.
-```{r}
-data("glioma.idhwt.model")
-glioma.idhwt.model
 ```
 
 
