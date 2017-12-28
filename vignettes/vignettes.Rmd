@@ -113,11 +113,6 @@ Based on the article data from the article "Molecular Profiling Reveals Biologic
 
 First, we  will load the required libraries, control random number generation by specifying a seed and register the number of cores for parallel evaluation.
 ```{r, eval=FALSE, include=TRUE}
-#-----------------------------------------------------------------------------
-# Classify Metabolism Samples into TCGA molecular subtypes
-# Original code created by: Tathi Malta
-# Adapted by: Tiago Silva
-#-----------------------------------------------------------------------------
 library(readr)
 library(readxl)
 library(dplyr)
