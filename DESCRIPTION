@@ -5,7 +5,7 @@ Author: Tiago Chedraoui Silva
 Maintainer: Tiago Chedraoui Silva <tiagochst@usp.br>
 Description: 
     Supporting data for the TCGAbiolinksGUI package. 
-    It includes the fololowing objects: glioma.gcimp.model, glioma.idhwt.model
+    It includes the following objects: glioma.gcimp.model, glioma.idhwt.model
     glioma.idhmut.model,glioma.idh.mode, probes2rm, maf.tumor,GDCdisease.
 License: GPL-3
 LazyData: false
@@ -13,7 +13,14 @@ Depends:
     R (>= 3.5.0)
 Suggests:
     BiocStyle,
-    knitr
+    knitr,
+    readr,
+    readxl,
+    dplyr,
+    caret,
+    randomForest,
+    doMC,
+    e1071
 biocViews: AssayDomainData, TechnologyData, OrganismData
 URL:https://github.com/BioinformaticsFMRP/TCGAbiolinksGUI.data
 BugReports: https://github.com/BioinformaticsFMRP/TCGAbiolinksGUI.data/issues

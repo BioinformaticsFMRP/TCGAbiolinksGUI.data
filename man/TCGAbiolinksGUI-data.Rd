@@ -13,6 +13,25 @@
 \alias{probes2rm}
 \title{Auxiliary data for TCGAbiolinksGUI package.}
 \format{A RF train model or a list.}
+\source{
+RF model created from DNA methylation signatures retrieved 
+from \url{www.cell.com/cell/abstract/S0092-8674(15)01692-X}
+
+RF model created from DNA methylation signatures retrieved 
+from \url{www.cell.com/cell/abstract/S0092-8674(15)01692-X}
+
+RF model created from DNA methylation signatures retrieved 
+from \url{www.cell.com/cell/abstract/S0092-8674(15)01692-X}
+
+RF model created from DNA methylation signatures retrieved 
+from \url{www.cell.com/cell/abstract/S0092-8674(15)01692-X}
+
+Retrivied from GDC API
+
+\url{https://gdc-docs.nci.nih.gov/Data/Release_Notes/Manifests/GDC_open_MAFs_manifest.txt}
+
+\url{https://support.illumina.com/downloads/infinium-methylationepic-v1-0-product-files.html}
+}
 \usage{
 glioma.gcimp.model
 
@@ -33,7 +52,7 @@ A RF train model or a list.
 }
 \description{
 \strong{Package:} TCGAbiolinksGUI.data provide the necessary data for TCGAbiolinksGUI glioma classifier menu.
- It includes the fololowing objects: 
+ It includes the following objects: 
  
 \describe{
  \item{\strong{glioma.gcimp.model}}{A train model for GCIMP DNA methylation signatures}
