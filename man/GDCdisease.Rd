@@ -9,12 +9,9 @@
 Retrivied from GDC API
 }
 \usage{
-GDCdisease
+data("GDCdisease")
 }
 \description{
 Contains all GDC projects with open data
 }
-\examples{
-data("GDCdisease")
-}
-\keyword{internal}
+\keyword{datasets}

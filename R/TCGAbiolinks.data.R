@@ -24,80 +24,73 @@ NULL
 #' @title gcimp RF model
 #' @description A RF model able to classify DNA methylation samples in to GCIMP groups
 #' @docType data
-#' @keywords internal
+#' @keywords datasets
 #' @name glioma.gcimp.model
 #' @format A random forest model with 276 samples and 145 predictors classifying into 3 classes
 #' @source RF model created from DNA methylation signatures retrieved 
 #' from \url{www.cell.com/cell/abstract/S0092-8674(15)01692-X}
-#' @examples
-#' data("glioma.gcimp.model")
+#' @usage data("glioma.gcimp.model")
 "glioma.gcimp.model"
 
 #' @title IDHmut RF model
 #' @description A RF model able to classify DNA methylation samples in to IDHmut groups
 #' @docType data
-#' @keywords internal
+#' @keywords datasets
 #' @format A random forest model with 450 samples and 1216 predictors classifying into 3 classes
 #' @name glioma.idhmut.model
 #' @source RF model created from DNA methylation signatures retrieved 
 #' from \url{www.cell.com/cell/abstract/S0092-8674(15)01692-X}
-#' @examples
-#' data("glioma.idhmut.model")
+#' @usage data("glioma.idhmut.model")
 "glioma.idhmut.model"
 
 #' @title IDHwt RF model
 #' @description A RF model able to classify DNA methylation samples in to IDHwt groups
 #' @docType data
-#' @keywords internal
+#' @keywords datasets
 #' @name glioma.idhwt.model
 #' @format A random forest model with 430 samples and 843 predictors classifying into 3 classes
 #' @source RF model created from DNA methylation signatures retrieved 
 #' from \url{www.cell.com/cell/abstract/S0092-8674(15)01692-X}
-#' @examples
-#' data("glioma.idhwt.model")
+#' @usage data("glioma.idhwt.model")
 "glioma.idhwt.model"
 
 #' @title IDH RF model
 #' @description A RF model able to classify DNA methylation samples in to IDH groups
 #' @docType data
-#' @keywords internal
+#' @keywords datasets
 #' @format A random forest model with 880 samples and 1205 predictors classifying into 6 classes
 #' @name glioma.idh.model
 #' @source RF model created from DNA methylation signatures retrieved 
 #' from \url{www.cell.com/cell/abstract/S0092-8674(15)01692-X}
-#' @examples
-#' data("glioma.idh.model")
+#' @usage data("glioma.idh.model")
 "glioma.idh.model"
 
 #' @title GDC projects
 #' @description Contains all GDC projects with open data
 #' @docType data
-#' @keywords internal
+#' @keywords datasets
 #' @name GDCdisease
 #' @format A named list with 39 projects
 #' @source Retrivied from GDC API
-#' @examples
-#' data("GDCdisease")
+#' @usage  data("GDCdisease")
 "GDCdisease"
 
 #' @title GDC open MAF files 
 #' @description Contains the list of GDC project with open MAF files available
 #' @docType data
-#' @keywords internal
+#' @keywords datasets
 #' @name maf.tumor
 #' @format A named list with 33 tumors
-#' @examples
-#' data("maf.tumor")
+#' @usage data(maf.tumor)
 #' @source \url{https://gdc-docs.nci.nih.gov/Data/Release_Notes/Manifests/GDC_open_MAFs_manifest.txt}
 "maf.tumor"
 
 #' @title EPIC probes removed from newer versions
 #' @description EPIC probes removed from newer versions that should not be used in the analysis
 #' @docType data
-#' @keywords internal
+#' @keywords datasets
 #' @name probes2rm
 #' @format A list with 977 probes
 #' @source \url{https://support.illumina.com/downloads/infinium-methylationepic-v1-0-product-files.html}
-#' @examples
-#' data("probes2rm")
+#' @usage data("probes2rm")
 "probes2rm"

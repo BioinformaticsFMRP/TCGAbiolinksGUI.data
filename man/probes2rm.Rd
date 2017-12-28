@@ -9,12 +9,9 @@
 \url{https://support.illumina.com/downloads/infinium-methylationepic-v1-0-product-files.html}
 }
 \usage{
-probes2rm
+data("probes2rm")
 }
 \description{
 EPIC probes removed from newer versions that should not be used in the analysis
 }
-\examples{
-data("probes2rm")
-}
-\keyword{internal}
+\keyword{datasets}

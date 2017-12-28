@@ -10,12 +10,9 @@ RF model created from DNA methylation signatures retrieved
 from \url{www.cell.com/cell/abstract/S0092-8674(15)01692-X}
 }
 \usage{
-glioma.idh.model
+data("glioma.idh.model")
 }
 \description{
 A RF model able to classify DNA methylation samples in to IDH groups
 }
-\examples{
-data("glioma.idh.model")
-}
-\keyword{internal}
+\keyword{datasets}

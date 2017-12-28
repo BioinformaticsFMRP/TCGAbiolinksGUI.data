@@ -9,12 +9,9 @@
 \url{https://gdc-docs.nci.nih.gov/Data/Release_Notes/Manifests/GDC_open_MAFs_manifest.txt}
 }
 \usage{
-maf.tumor
+data(maf.tumor)
 }
 \description{
 Contains the list of GDC project with open MAF files available
 }
-\examples{
-data("maf.tumor")
-}
-\keyword{internal}
+\keyword{datasets}
