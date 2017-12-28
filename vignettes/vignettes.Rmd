@@ -30,10 +30,10 @@ supporting data for `r BiocStyle::Biocpkg("TCGAbiolinksGUI")` [@silva2017tcgabio
 
 This package contains the following objects:
 
-  - glioma.gcimp.model  
-  - glioma.idh.model
-  - glioma.idhmut.model
-  - glioma.idhwt.model 
+- glioma.gcimp.model  
+- glioma.idh.model
+- glioma.idhmut.model
+- glioma.idhwt.model 
 
 ## Installing TCGAbiolinksGUI.data
 
@@ -64,13 +64,13 @@ The code below access the NCI's Genomic Data Commons (GDC) and get the list of a
 ```{r, eval=FALSE, include=TRUE}
 # Defining parameters
 getGDCdisease <- function(){
-    projects <- TCGAbiolinks:::getGDCprojects()
-    projects <- projects[projects$id != "FM-AD",]
-    disease <-  projects$project_id
-    idx <- grep("disease_type",colnames(projects))
-    names(disease) <-  paste0(projects[[idx]], " (",disease,")")
-    disease <- disease[sort(names(disease))]
-    return(disease)
+  projects <- TCGAbiolinks:::getGDCprojects()
+  projects <- projects[projects$id != "FM-AD",]
+  disease <-  projects$project_id
+  idx <- grep("disease_type",colnames(projects))
+  names(disease) <-  paste0(projects[[idx]], " (",disease,")")
+  disease <- disease[sort(names(disease))]
+  return(disease)
 }
 ```
 
@@ -85,18 +85,18 @@ head(GDCdisease)
 The code below downloads a manifest of open TCGA MAF files available in the NCI's Genomic Data Commons (GDC).
 ```{r, eval=FALSE, include=TRUE}
 getMafTumors <- function(){
-    root <- "https://gdc-api.nci.nih.gov/data/"
-    maf <- fread("https://gdc-docs.nci.nih.gov/Data/Release_Notes/Manifests/GDC_open_MAFs_manifest.txt",
-                 data.table = FALSE, verbose = FALSE, showProgress = FALSE)
-    tumor <- unlist(lapply(maf$filename, function(x){unlist(str_split(x,"\\."))[2]}))
-    proj <- TCGAbiolinks:::getGDCprojects()
-
-    disease <-  gsub("TCGA-","",proj$project_id)
-    idx <- grep("disease_type",colnames(proj))
-    names(disease) <-  paste0(proj[[idx]], " (",proj$project_id,")")
-    disease <- sort(disease)
-    ret <- disease[disease %in% tumor]
-    return(ret)
+  root <- "https://gdc-api.nci.nih.gov/data/"
+  maf <- fread("https://gdc-docs.nci.nih.gov/Data/Release_Notes/Manifests/GDC_open_MAFs_manifest.txt",
+               data.table = FALSE, verbose = FALSE, showProgress = FALSE)
+  tumor <- unlist(lapply(maf$filename, function(x){unlist(str_split(x,"\\."))[2]}))
+  proj <- TCGAbiolinks:::getGDCprojects()
+  
+  disease <-  gsub("TCGA-","",proj$project_id)
+  idx <- grep("disease_type",colnames(proj))
+  names(disease) <-  paste0(proj[[idx]], " (",proj$project_id,")")
+  disease <- sort(disease)
+  ret <- disease[disease %in% tumor]
+  return(ret)
 }
 ```
 
@@ -126,6 +126,11 @@ library(caret)
 library(randomForest)
 library(doMC)
 library(e1071)
+# Confirm seed is set
+set.seed(210)
+
+# register cores for doMC
+registerDoMC(cores = parallel::detectCores())
 ```
 
 The next steps will download from the article: the DNA methylation data for glioma samples, samples metadata, and 
@@ -186,10 +191,75 @@ and using the labels for each samples a Random forest model is created.
 The models created are:
 
 ## RF to classify between IDHmut and IDHwt
-   - trainingset: whole TCGA panglioma cohort
-   - probes signature: "1,300 pan-glioma tumor specific"
-   - groups: LGm1, LGm2, LGm3, LGm4, LGm5, LGm6
-   - metadata column: Pan-Glioma DNA Methylation Cluster
+- trainingset: whole TCGA panglioma cohort
+- probes signature: "1,300 pan-glioma tumor specific"
+- groups: LGm1, LGm2, LGm3, LGm4, LGm5, LGm6
+- metadata column: Pan-Glioma DNA Methylation Cluster
+
+We will start by preparing the training data. The DNA methylation matrix will be subset to the DNA methylation
+signatures and samples with classification.
+
+```{r, eval=FALSE, include=TRUE}
+sheets <- c("1,300 pan-glioma tumor specific")
+trainingset <- grep("mut|wt",unique(metadata$`IDH-specific DNA Methylation Cluster`),value = T)
+trainingcol <- c("Pan-Glioma DNA Methylation Cluster")
+plat <- "450K"
+signature.probes <-  read_excel("PanGlioma_MethylationSignatures.xlsx",  sheet = sheets)  %>% pull(1) 
+samples <- dplyr::filter(metadata, `IDH-specific DNA Methylation Cluster` %in% trainingset)
+RFtrain <- LGG.GBM[signature.probes, colnames(LGG.GBM) %in% as.character(samples$Case)] %>% na.omit 
+```
+
+Probes that should be masked, will be removed.
+```{r, eval=FALSE, include=TRUE}
+RFtrain <- RFtrain[!hm450.manifest.hg38[rownames(RFtrain)]$MASK.general,]
+```
+
+We will merge the samples with their classification. In the end we will have samples in the row, probes and classification as columns
+```{r, eval=FALSE, include=TRUE}
+trainingdata <- t(RFtrain)
+trainingdata <- merge(trainingdata, metadata[,c("Case", trainingcol[model])], by.x=0,by.y="Case", all.x=T)
+rownames(trainingdata) <- as.character(trainingdata$Row.names)
+trainingdata$Row.names <- NULL
+```
+
+With data prepared we will start the RF traning by selecting tuning the mtry argument.
+```{r, eval=FALSE, include=TRUE}
+# set up k-fold cross validation
+fitControl <- trainControl(## 10-fold CV
+  method = "repeatedcv",
+  number = 10,
+  verboseIter = TRUE,
+  repeats = 10)
+
+nfeat <- ncol(trainingdata)
+trainingdata[,trainingcol] <-  factor(trainingdata[,trainingcol])
+mtryVals <- floor(sqrt(nfeat))
+for(i in floor(seq(sqrt(nfeat), nfeat/2, by = 2 * sqrt(nfeat)))) {
+  print(i)
+  x <- as.data.frame(tuneRF(trainingdata[,-grep(trainingcol[model],colnames(trainingdata))], 
+                            trainingdata[,trainingcol[model]], 
+                            stepFactor=2,
+                            plot= FALSE,
+                            mtryStart = i))
+  mtryVals <- unique(c(mtryVals, x$mtry[which (x$OOBError  == min(x$OOBError))]))
+}
+mtryGrid <- data.frame(.mtry=mtryVals)
+# Confirm seed again
+set.seed(420)
+```
+
+We will use the training data to create our Random forest model
+```{r, eval=FALSE, include=TRUE}
+glioma.idh.model <- train(y = trainingdata[,trainingcol], # variable to be trained on
+                          x = trainingdata[,-grep(trainingcol,colnames(trainingdata))],
+                          data = trainingdata, # Data we are using
+                          method = "rf", # Method we are using
+                          trControl = fitControl, # How we validate
+                          ntree = 5000, # number of trees
+                          importance = TRUE, # calculate varible importance
+                          tuneGrid = mtryGrid, # set mtrys
+)
+```
 
 The IDH model are saved in  glioma.idh.model object.
 ```{r}
@@ -200,10 +270,10 @@ glioma.idh.model
 
 
 ### RF to classify IDHmut specific clusters
-   - trainingset: TCGA IDHmut only
-   - probes signature: "1,308 IDHmutant tumor specific "
-   - groups: IDHmut-K1, IDHmut-K2, IDHmut-K3
-   - metadata column: IDH-specific DNA Methylation Cluster
+- trainingset: TCGA IDHmut only
+- probes signature: "1,308 IDHmutant tumor specific "
+- groups: IDHmut-K1, IDHmut-K2, IDHmut-K3
+- metadata column: IDH-specific DNA Methylation Cluster
 
 
 The IDHmut model  are saved in  glioma.idhmut.model object.
@@ -215,10 +285,10 @@ glioma.idhmut.model
 
 
 ### RF to classify between G-CIMP-low and G-CIMP-high 
-   - trainingset: TCGA IDHmut-K1 and IDHmut-K2 only
-   - probes signature: "163  probes that define each TC"
-   - groups: G-CIMP-low, G-CIMP-high
-   - metadata column: Supervised DNA Methylation Cluster
+- trainingset: TCGA IDHmut-K1 and IDHmut-K2 only
+- probes signature: "163  probes that define each TC"
+- groups: G-CIMP-low, G-CIMP-high
+- metadata column: Supervised DNA Methylation Cluster
 
 The G-CIMP model are saved in  glioma.gcimp.model object.
 ```{r}
@@ -227,13 +297,13 @@ glioma.gcimp.model
 ```
 
 ### RF to classify IDHwt specific clusters 
-   - trainingset: TCGA IDHwt only
-   - probes signature: "914 IDHwildtype tumor specific "
-   - groups: IDHwt-K1, IDHwt-K2, IDHwt-K3
-   - metadata column:  IDH-specific DNA Methylation Cluster
-   
- Note: In this case, samples classified into IDHwt-K3 
-       should be further subdivided by grade.
+- trainingset: TCGA IDHwt only
+- probes signature: "914 IDHwildtype tumor specific "
+- groups: IDHwt-K1, IDHwt-K2, IDHwt-K3
+- metadata column:  IDH-specific DNA Methylation Cluster
+
+Note: In this case, samples classified into IDHwt-K3 
+should be further subdivided by grade.
 
 
 The IDHwt specific model which classifies are saved in  glioma.idh.model object.
@@ -291,14 +361,14 @@ for(plat in c("EPIC","450K")){
       number = 10,
       verboseIter = TRUE,
       repeats = 10)
-
-   
+    
+    
     set.seed(42)  # Set your seed so your work is repeatable
     
     # Create a subset of your data to train your model on.  This makes sure you have
     # equal representation of the 'papercluster' groups in your training set
     inTraining <- createDataPartition(trainingdata[,trainingcol[model]], p=0.8, list=FALSE, times=1)
-   
+    
     myTrain <- trainingdata[inTraining, ]  # Training Set
     myTest <- trainingdata[-inTraining, ]   # Testing Set
     # Confirm seed is set
@@ -333,17 +403,17 @@ for(plat in c("EPIC","450K")){
     message("Training...")
     message(paste0("Training set - 80%: ", nrow(trainingdata), " samples", " vs ", ncol(trainingdata), " probes "))
     train.model <- train(y = trainingdata[,trainingcol[model]], # variable to be trained on
-                   x = trainingdata[,-grep(trainingcol[model],colnames(trainingdata))],
-                   data = trainingdata, # Data we are using
-                   method = "rf", # Method we are using
-                   trControl = fitControl, # How we validate
-                   # We created this object above
-                   ntree = 5000, # number of trees
-                   # is dependent on training data size
-                   importance = TRUE, # calculate varible importance
-                   # can be omitted to speed up calc
-                   tuneGrid = mtryGrid, # set mtrys
-                   #subset = inTraining # define training set #comment when train with 100% of samples
+                         x = trainingdata[,-grep(trainingcol[model],colnames(trainingdata))],
+                         data = trainingdata, # Data we are using
+                         method = "rf", # Method we are using
+                         trControl = fitControl, # How we validate
+                         # We created this object above
+                         ntree = 5000, # number of trees
+                         # is dependent on training data size
+                         importance = TRUE, # calculate varible importance
+                         # can be omitted to speed up calc
+                         tuneGrid = mtryGrid, # set mtrys
+                         #subset = inTraining # define training set #comment when train with 100% of samples
     )
     save(train.model,mtryGrid,fitControl,trainingdata,inTraining, myTrain,myTest,
          file = paste0(plat,"_RF_model_100_",gsub(" ","_",sheets[model]),".Rda"), compress = "xz")
