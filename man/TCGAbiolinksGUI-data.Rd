@@ -4,74 +4,19 @@
 \name{TCGAbiolinksGUI.data}
 \alias{TCGAbiolinksGUI.data}
 \alias{TCGAbiolinksGUI.data-package}
-\alias{glioma.gcimp.model}
-\alias{glioma.idhmut.model}
-\alias{glioma.idhwt.model}
-\alias{glioma.idh.model}
-\alias{GDCdisease}
-\alias{maf.tumor}
-\alias{probes2rm}
 \title{Auxiliary data for TCGAbiolinksGUI package.}
-\format{A RF train model or a list.}
-\source{
-RF model created from DNA methylation signatures retrieved 
-from \url{www.cell.com/cell/abstract/S0092-8674(15)01692-X}
-
-RF model created from DNA methylation signatures retrieved 
-from \url{www.cell.com/cell/abstract/S0092-8674(15)01692-X}
-
-RF model created from DNA methylation signatures retrieved 
-from \url{www.cell.com/cell/abstract/S0092-8674(15)01692-X}
-
-RF model created from DNA methylation signatures retrieved 
-from \url{www.cell.com/cell/abstract/S0092-8674(15)01692-X}
-
-Retrivied from GDC API
-
-\url{https://gdc-docs.nci.nih.gov/Data/Release_Notes/Manifests/GDC_open_MAFs_manifest.txt}
-
-\url{https://support.illumina.com/downloads/infinium-methylationepic-v1-0-product-files.html}
-}
-\usage{
-glioma.gcimp.model
-
-glioma.idhmut.model
-
-glioma.idhwt.model
-
-glioma.idh.model
-
-GDCdisease
-
-maf.tumor
-
-probes2rm
-}
-\value{
-A RF train model or a list.
-}
 \description{
 \strong{Package:} TCGAbiolinksGUI.data provide the necessary data for TCGAbiolinksGUI glioma classifier menu.
  It includes the following objects: 
  
 \describe{
- \item{\strong{glioma.gcimp.model}}{A train model for GCIMP DNA methylation signatures}
- \item{\strong{glioma.idhwt.model}}{A train model for IDHwt DNA methylation signatures}
- \item{\strong{glioma.idhmut.model}}{A train model for IDHmut DNA methylation signatures}
- \item{\strong{glioma.idh.mode}}{A train model for IDH DNA methylation signatures}
- \item{\strong{probes2rm}}{List of probes that should be removed from EPIC array due to different versions of the platform.\cr Source: https://support.illumina.com/downloads/infinium-methylationepic-v1-0-product-files.html }
- \item{\strong{maf.tumor}}{TCGA projects with open MAF files retrieved from  the NCI's Genomic Data Commons (GDC). \cr Source: https://gdc-docs.nci.nih.gov/Data/Release_Notes/Manifests/GDC_open_MAFs_manifest.txt}
- \item{\strong{GDCdisease}}{The NCI's Genomic Data Commons (GDC) projects list}
+ \item{\strong{\link[TCGAbiolinksGUI.data]{glioma.gcimp.model}}}{A train model for GCIMP DNA methylation signatures.}
+ \item{\strong{\link[TCGAbiolinksGUI.data]{glioma.idhwt.model}}}{A train model for IDHwt DNA methylation signatures}
+ \item{\strong{\link[TCGAbiolinksGUI.data]{glioma.idhmut.model}}}{A train model for IDHmut DNA methylation signatures}
+ \item{\strong{\link[TCGAbiolinksGUI.data]{glioma.idh.model}}}{A train model for IDH DNA methylation signatures}
+ \item{\strong{\link[TCGAbiolinksGUI.data]{probes2rm}}}{List of probes that should be removed from EPIC array due to different versions of the platform.\cr Source: https://support.illumina.com/downloads/infinium-methylationepic-v1-0-product-files.html }
+ \item{\strong{\link[TCGAbiolinksGUI.data]{maf.tumor}}}{TCGA projects with open MAF files retrieved from  the NCI's Genomic Data Commons (GDC). \cr Source: https://gdc-docs.nci.nih.gov/Data/Release_Notes/Manifests/GDC_open_MAFs_manifest.txt}
+ \item{\strong{\link[TCGAbiolinksGUI.data]{GDCdisease}}}{The NCI's Genomic Data Commons (GDC) projects list}
 }
 }
-\examples{
-data("glioma.gcimp.model")
-data("glioma.idhmut.model")
-data("glioma.idhwt.model")
-data("glioma.idh.model")
-data("GDCdisease")
-data("maf.tumor")
-data("probes2rm")
-}
-\keyword{internal}
 \keyword{utilities}
