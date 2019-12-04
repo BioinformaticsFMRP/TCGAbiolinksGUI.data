@@ -42,7 +42,8 @@ This package contains the following objects:
 
 You can install the package from Bioconductor:
 ```{r, eval = FALSE}
-source("https://www.bioconductor.org/biocLite.R")
+if (!requireNamespace("BiocManager", quietly=TRUE))
+    install.packages("BiocManager")
 bioLite("TCGAbiolinksGUI.data")
 ```
 
