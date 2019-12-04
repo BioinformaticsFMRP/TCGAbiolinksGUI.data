@@ -95,7 +95,6 @@ NULL
 #' @usage data("probes2rm")
 "probes2rm"
 
-
 #' @title linkedOmics table
 #' @description  linkedOmics table with links
 #' @docType data
