@@ -3,7 +3,6 @@
 \docType{package}
 \name{TCGAbiolinksGUI.data}
 \alias{TCGAbiolinksGUI.data}
-\alias{TCGAbiolinksGUI.data-package}
 \title{Auxiliary data for TCGAbiolinksGUI package.}
 \description{
 \strong{Package:} TCGAbiolinksGUI.data provide the necessary data for TCGAbiolinksGUI glioma classifier menu.

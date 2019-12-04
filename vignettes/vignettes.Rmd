@@ -30,10 +30,13 @@ supporting data for `r BiocStyle::Biocpkg("TCGAbiolinksGUI")` [@silva2017tcgabio
 
 This package contains the following objects:
 
-- glioma.gcimp.model  
-- glioma.idh.model
-- glioma.idhmut.model
-- glioma.idhwt.model 
+- For Glioma Classifier function
+  - glioma.gcimp.model  
+  - glioma.idh.model
+  - glioma.idhmut.model
+  - glioma.idhwt.model 
+- For linkedOmics database:
+  - linkedOmicsData
 
 ## Installing TCGAbiolinksGUI.data
 
@@ -341,7 +344,53 @@ https://support.illumina.com/downloads/infinium-methylationepic-v1-0-product-fil
 data("probes2rm")
 head(probes2rm)
 ```
+
+## Parsing linked omics database
+
+The code below will parse all links from omicsLinks website.
+
+```{R}
+scraplinks <- function(url){
+    # Create an html document from the url
+    webpage <- xml2::read_html(url)
+    # Extract the URLs
+    url_ <- webpage %>%
+        rvest::html_nodes("a") %>%
+        rvest::html_attr("href")
+    # Extract the link text
+    link_ <- webpage %>%
+        rvest::html_nodes("a") %>%
+        rvest::html_text()
+    tb <- tibble::tibble(link = link_, url = url_)
+    tb <- tb %>% dplyr::filter(tb$link == "Download")
+    return(tb)
+}
+
+library(htmltab)
+library(dplyr)
+library(tidyr)
+root <- "http://linkedomics.org"
+root.download <- file.path(root,"data_download")
+linkedOmics <- htmltab(paste0(root,"/login.php#dataSource"))
+linkedOmics <- linkedOmics %>% unite(col = "download_page","Cohort Source","Cancer ID", remove = FALSE,sep = "-")
+linkedOmics.data <- plyr::adply(linkedOmics$download_page,1,function(project){
+    url <- file.path(root.download,project)
+    tryCatch({
+        tb <- cbind(tibble::tibble(project),htmltab(url),scraplinks(url))
+        tb$Link <- tb$link <- NULL
+        tb$dataset <- gsub(" \\(.*","",tb$`OMICS Dataset`)
+        tb
+    }, error = function(e) {
+        message(e)
+        return(NULL)
+    }
+    )
+},.progress = "time",.id = NULL)
+usethis::use_data(linkedOmics.data,internal = FALSE,compress = "xz")
+```
+
 # Session Information
+
 ******
 ```{r sessionInfo}
 sessionInfo()

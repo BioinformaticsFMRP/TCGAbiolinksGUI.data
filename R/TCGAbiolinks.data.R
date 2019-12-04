@@ -94,3 +94,15 @@ NULL
 #' @source \url{https://support.illumina.com/downloads/infinium-methylationepic-v1-0-product-files.html}
 #' @usage data("probes2rm")
 "probes2rm"
+
+
+#' @title linkedOmics table
+#' @description  linkedOmics table with links
+#' @docType data
+#' @keywords datasets
+#' @format A table
+#' @name linkedOmics.data
+#' @source Parsed from 
+#' \url{http://linkedomics.org/login.php#dataSource}
+#' @usage data("linkedOmics.data")
+"linkedOmics.data"
