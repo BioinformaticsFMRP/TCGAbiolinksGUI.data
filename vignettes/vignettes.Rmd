@@ -350,7 +350,7 @@ head(probes2rm)
 
 The code below will parse all links from omicsLinks website.
 
-```{R}
+```{R, eval = FALSE}
 scraplinks <- function(url){
     # Create an html document from the url
     webpage <- xml2::read_html(url)
