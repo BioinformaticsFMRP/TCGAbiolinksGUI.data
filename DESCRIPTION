@@ -24,7 +24,8 @@ Suggests:
     randomForest,
     doMC,
     e1071,
-    DT
+    DT,
+    htmltab
 biocViews: AssayDomainData, TechnologyData, OrganismData
 URL: https://github.com/BioinformaticsFMRP/TCGAbiolinksGUI.data
 BugReports: https://github.com/BioinformaticsFMRP/TCGAbiolinksGUI.data/issues
