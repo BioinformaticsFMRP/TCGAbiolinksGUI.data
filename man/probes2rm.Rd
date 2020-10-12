@@ -4,7 +4,9 @@
 \name{probes2rm}
 \alias{probes2rm}
 \title{EPIC probes removed from newer versions}
-\format{A list with 977 probes}
+\format{
+A list with 977 probes
+}
 \source{
 \url{https://support.illumina.com/downloads/infinium-methylationepic-v1-0-product-files.html}
 }

@@ -105,3 +105,24 @@ NULL
 #' \url{http://linkedomics.org/login.php#dataSource}
 #' @usage data("linkedOmics.data")
 "linkedOmics.data"
+
+#' @title Biomart hg38 gene information
+#' @description  Biomart hg38 gene information
+#' @docType data
+#' @keywords datasets
+#' @format A table
+#' @name gene.location.hg38
+#' @source Downloaded with biomart
+#' @usage data("gene.location.hg38")
+"gene.location.hg38"
+
+#' @title Biomart hg19 gene information
+#' @description  Biomart hg19 gene information
+#' @docType data
+#' @keywords datasets
+#' @format A table
+#' @name gene.location.hg19
+#' @source Downloaded with biomart
+#' @usage data("gene.location.hg19")
+"gene.location.hg19"
+

@@ -4,7 +4,9 @@
 \name{maf.tumor}
 \alias{maf.tumor}
 \title{GDC open MAF files}
-\format{A named list with 33 tumors}
+\format{
+A named list with 33 tumors
+}
 \source{
 \url{https://gdc-docs.nci.nih.gov/Data/Release_Notes/Manifests/GDC_open_MAFs_manifest.txt}
 }

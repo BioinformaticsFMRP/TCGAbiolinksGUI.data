@@ -4,7 +4,9 @@
 \name{glioma.idhwt.model}
 \alias{glioma.idhwt.model}
 \title{IDHwt RF model}
-\format{A random forest model with 430 samples and 843 predictors classifying into 3 classes}
+\format{
+A random forest model with 430 samples and 843 predictors classifying into 3 classes
+}
 \source{
 RF model created from DNA methylation signatures retrieved 
 from \url{www.cell.com/cell/abstract/S0092-8674(15)01692-X}

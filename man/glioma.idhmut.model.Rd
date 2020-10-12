@@ -4,7 +4,9 @@
 \name{glioma.idhmut.model}
 \alias{glioma.idhmut.model}
 \title{IDHmut RF model}
-\format{A random forest model with 450 samples and 1216 predictors classifying into 3 classes}
+\format{
+A random forest model with 450 samples and 1216 predictors classifying into 3 classes
+}
 \source{
 RF model created from DNA methylation signatures retrieved 
 from \url{www.cell.com/cell/abstract/S0092-8674(15)01692-X}

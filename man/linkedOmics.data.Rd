@@ -4,7 +4,9 @@
 \name{linkedOmics.data}
 \alias{linkedOmics.data}
 \title{linkedOmics table}
-\format{A table}
+\format{
+A table
+}
 \source{
 Parsed from 
 \url{http://linkedomics.org/login.php#dataSource}
