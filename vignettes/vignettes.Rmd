@@ -404,12 +404,13 @@ usethis::use_data(linkedOmics.data,internal = FALSE,compress = "xz")
 
 ## Gene information
 
+### Gene 
 ```{R, eval = FALSE}
 get_gene_information_biomart <- function(
     genome = c("hg38","hg19"),
     TSS = FALSE
 ){
-    check_package("biomaRt")
+    requireNamespace("biomaRt")
     genome <- match.arg(genome)
     tries <- 0L
     msg <- character()
@@ -444,6 +445,7 @@ get_gene_information_biomart <- function(
             attributes <- c(
                 "ensembl_gene_id",
                 "external_gene_name",
+                "entrezgene",
                 "chromosome_name",
                 "strand",
                 "end_position",
@@ -477,6 +479,79 @@ save(gene.location.hg19, file = "gene.location.hg19.rda")
 
 gene.location.hg38 <- get_gene_information_biomart("hg38")
 save(gene.location.hg38, file = "gene.location.hg38.rda")
+```
+
+### TSS
+
+```{R, eval = FALSE}
+library(biomaRt)
+getTSS <- function(
+    genome = "hg38",
+    TSS = list(upstream = NULL, downstream = NULL)
+) {
+    host <- ifelse(genome == "hg19",  "grch37.ensembl.org", "www.ensembl.org")
+    ensembl <- tryCatch({
+        useEnsembl(biomart = "ensembl", dataset = "hsapiens_gene_ensembl", host =  host)
+    },  error = function(e) {
+        useEnsembl(
+          biomart = "ensembl",
+            dataset = "hsapiens_gene_ensembl",
+            host =  host
+        )
+    })
+    attributes <- c(
+        "chromosome_name",
+        "start_position",
+        "end_position",
+        "strand",
+        "transcript_start",
+        "transcription_start_site",
+        "transcript_end",
+        "ensembl_transcript_id",
+        "ensembl_gene_id",
+        "external_gene_name"
+    )
+
+    chrom <- c(1:22, "X", "Y")
+    db.datasets <- listDatasets(ensembl)
+    description <- db.datasets[db.datasets$dataset == "hsapiens_gene_ensembl", ]$description
+    message(paste0("Downloading transcripts information. Using: ", description))
+
+    tss <- getBM(
+        attributes = attributes,
+        filters = c("chromosome_name"),
+        values = list(chrom),
+        mart = ensembl
+    )
+    tss <- tss[!duplicated(tss$ensembl_transcript_id), ]
+    if (genome == "hg19") tss$external_gene_name <- tss$external_gene_id
+    tss$chromosome_name <-  paste0("chr", tss$chromosome_name)
+    tss$strand[tss$strand == 1] <- "+"
+    tss$strand[tss$strand == -1] <- "-"
+
+    tss <- makeGRangesFromDataFrame(
+        tss,
+        start.field = "transcript_start",
+        end.field = "transcript_end",
+        keep.extra.columns = TRUE
+    )
+
+    if (!is.null(TSS$upstream) & !is.null(TSS$downstream)) {
+        tss <- promoters(
+            tss,
+            upstream = TSS$upstream,
+            downstream = TSS$downstream
+        )
+    }
+    return(tss)
+}
+
+gene.location.hg19.tss <- getTSS("hg19")
+save(gene.location.hg19.tss, file = "gene.location.hg19.tss.rda")
+
+gene.location.hg38.tss <- getTSS("hg38")
+save(gene.location.hg38.tss, file = "gene.location.hg38.tss.rda")
+
 ```
 
 # Session Information
