@@ -13,14 +13,7 @@ Suggests:
     BiocStyle,
     knitr,
     readr,
-    readxl,
-    dplyr,
-    caret,
-    randomForest,
-    doMC,
-    e1071,
-    DT,
-    htmltab
+    DT
 biocViews: AssayDomainData, TechnologyData, OrganismData
 URL: https://github.com/BioinformaticsFMRP/TCGAbiolinksGUI.data
 BugReports: https://github.com/BioinformaticsFMRP/TCGAbiolinksGUI.data/issues

@@ -119,7 +119,7 @@ DT::datatable(as.data.frame(maf.tumor))
 Based on the article data from the article "Molecular Profiling Reveals Biologically Discrete Subsets and Pathways of Progression in Diffuse Glioma" (www.cell.com/cell/abstract/S0092-8674(15)01692-X) [@Cell] we created a training model to predict Glioma classes based on DNA methylation signatures.
 
 First, we  will load the required libraries, control random number generation by specifying a seed and register the number of cores for parallel evaluation.
-```{r, eval=FALSE, include=TRUE}
+```{r, eval = FALSE, include = TRUE}
 library(readr)
 library(readxl)
 library(dplyr)
