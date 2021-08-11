@@ -1,6 +1,6 @@
 Package: TCGAbiolinksGUI.data
 Title: Data for the TCGAbiolinksGUI package
-Version: 1.13.0
+Version: 1.13.1
 Author: Tiago Chedraoui Silva
 Maintainer: Tiago Chedraoui Silva <tiagochst@usp.br>
 Description: 
@@ -12,6 +12,7 @@ Depends:
 Suggests:
     BiocStyle,
     knitr,
+    rmarkdown,
     readr,
     DT
 biocViews: AssayDomainData, TechnologyData, OrganismData
