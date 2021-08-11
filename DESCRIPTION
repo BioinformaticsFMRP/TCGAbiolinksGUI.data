@@ -2,7 +2,7 @@ Package: TCGAbiolinksGUI.data
 Title: Data for the TCGAbiolinksGUI package
 Version: 1.13.1
 Author: Tiago Chedraoui Silva
-Maintainer: Tiago Chedraoui Silva <tiagochst@usp.br>
+Maintainer: Tiago Chedraoui Silva <tiagochst@gmail.com>
 Description: 
     Supporting data for the TCGAbiolinksGUI package. 
 License: GPL-3
