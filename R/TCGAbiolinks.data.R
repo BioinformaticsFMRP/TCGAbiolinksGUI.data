@@ -70,8 +70,9 @@ NULL
 #' @docType data
 #' @keywords datasets
 #' @name GDCdisease
-#' @format A named list with 39 projects
-#' @source Retrivied from GDC API
+#' @format A named list with 70 projects
+#' @source Retrieved from GDC API using TCGAbiolinks
+#' getGDCprojects function
 #' @usage  data("GDCdisease")
 "GDCdisease"
 
@@ -126,3 +127,14 @@ NULL
 #' @usage data("gene.location.hg19")
 "gene.location.hg19"
 
+#' @title GENCODE v36 gene information
+#' @description  GENCODE v36 gene information
+#' @docType data
+#' @keywords datasets
+#' @format A Granges object
+#' @name gencode.v36.annotation.genes
+#' @source Downloaded from GENCODE v36
+#' https://www.gencodegenes.org/human/release_36.html
+#' Comprehensive gene annotation and filtered to genes
+#' @usage data("gencode.v36.annotation.genes")
+"gencode.v36.annotation.genes"
